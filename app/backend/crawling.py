@@ -45,13 +45,16 @@ def dictionaries(sec, driver):
     return unique_elements
 
 def proceeding_verification(driver):
+    print("Etapa de verificação da existência do processo iniciada")
     try:
-        if driver.find_element(By.CSS_SELECTOR, "#mensagemRetorno").text == "Não existem informações disponíveis para os parâmetros informados.": return False  #processo não encontrado   
+        driver.find_element(By.CSS_SELECTOR, "#mensagemRetorno")
+        return False  #processo não encontrado   
     except NoSuchElementException: pass
 
     return True 
 
 def initial_search(driver, n1, n2):
+    print("Etapa de busca inicial iniciada")
     driver.find_element(By.CSS_SELECTOR, "#numeroDigitoAnoUnificado").send_keys(n1)
     driver.find_element(By.CSS_SELECTOR, "#foroNumeroUnificado").send_keys(n2)
     try:
@@ -59,13 +62,14 @@ def initial_search(driver, n1, n2):
         if not proceeding_verification(driver): return False  #nenhum processo encontrado em primeiro grau
 
     except NoSuchElementException:
-        print("Usando o seletor CSS para o botão de pesquisa da página de segundo grau")
+        print("Segundo grau")
         driver.find_element(By.CSS_SELECTOR, "#pbConsultar").click()
-        if not proceeding_verification(driver): return False  #nenhum processo encontrado em segundo grau
+        if not proceeding_verification(driver): return False  #nenhum processo encontrado em segundo grau - colocar uma condição de nao existente
 
     return True  
 
 def simple_data_collection(driver, second_degree_search):
+    print("Etapa de coleta simples de dados iniciada")
     unique_elements = dictionaries(second_degree_search, driver) #etapa de confirmação se for processo de segundo grau - com condicional
 
     driver.find_element(By.CSS_SELECTOR, ".unj-link-collapse__show").click() #ja garantindo a exibicao de mais informações na pagina com o "mais"
@@ -100,8 +104,7 @@ def simple_data_collection(driver, second_degree_search):
 def proceeding_parts_collection(driver):
     proceeding_parts = {}
     
-    try: #pode ter mais partes, entao talvez clicar no mais
-        #usando js p clicar diretamente no elemento que ta coberto por outro
+    try: #pode ter mais partes, entao talvez clicar no mais - usando js p clicar diretamente no elemento que ta coberto por outro
         mais_partes = driver.find_element(By.CSS_SELECTOR, "#linkpartes")
         driver.execute_script("arguments[0].scrollIntoView(true);", mais_partes)
         driver.execute_script("arguments[0].click();", mais_partes)
@@ -109,7 +112,7 @@ def proceeding_parts_collection(driver):
         tbody_proceeding_parts = driver.find_element(By.CSS_SELECTOR, '#tableTodasPartes > tbody:nth-child(1)')
 
     except NoSuchElementException:
-        print("Não existe esse elemento para exibir mais opçoes")
+        print("Não existe esse elemento para exibir mais partes do precesso")
         tbody_proceeding_parts = driver.find_element(By.CSS_SELECTOR, '#tablePartesPrincipais > tbody:nth-child(1)')
 
     except Exception as e:
@@ -128,16 +131,18 @@ def proceeding_parts_collection(driver):
 
     return proceeding_parts
 
-def proceeding_updates_collection(driver): #lista de dicionarios
+def proceeding_updates_collection(driver): #xdicionarios de listas
     proceeding_updates = []
     try:
         #clicando no mais para acessar a lista de todas as movimentacaoes - -mesmo problema sendo resolvido clicando diretamente no js
         mais_movimentacoes = driver.find_element(By.CSS_SELECTOR, "#linkmovimentacoes")
         driver.execute_script("arguments[0].scrollIntoView(true);", mais_movimentacoes)
         driver.execute_script("arguments[0].click();", mais_movimentacoes)
+
     except Exception as e:
         print(f"ERRO: {e}")
-        print(f"EXCEÇÃO: {type(e).__name__}")
+        if isinstance(e, NoSuchElementException): print("Não existe esse elemento para exibir mais movimentações do processo")
+        else: print(f"EXCEÇÃO: {type(e).__name__}")
 
     tbody_proceeding_updates = driver.find_element(By.CSS_SELECTOR, '#tabelaTodasMovimentacoes')
     proceeding_updates_rows = tbody_proceeding_updates.find_elements(By.TAG_NAME, 'tr')
@@ -166,13 +171,15 @@ def proceeding_search(n1, n2, url, second_degree_search):
 
     process_found = initial_search(driver, n1, n2)
     
-    if not process_found and second_degree_search == False:
+    if not process_found:
         driver.quit()
-        return {'erro': 'Nenhum processo encontrado para o número fornecido'}
+        if second_degree_search == False: return {'erro': 'Nenhum processo encontrado para o número fornecido'}
+        else: return 'Não existente. O processo não possui segundo grau'
 
     basic_info = simple_data_collection(driver, second_degree_search)
 
     #coleta de partes do processo e movimentações, independentemente do grau
+    print("Etapa de coleta complexa de dados iniciada")
     basic_info.append(proceeding_parts_collection(driver))
     basic_info.append(proceeding_updates_collection(driver))
 
@@ -181,6 +188,7 @@ def proceeding_search(n1, n2, url, second_degree_search):
     keys = ['classe', 'area', 'assunto', 'data_de_distribuicao', 'juiz', 'valor_da_acao', 'partes_do_processo', 'movimentacoes']
     collected_data = dict.fromkeys(keys)
     
+    print("Etapa de armazenamento de dados iniciada")
     for key, value in zip(keys, basic_info):
         collected_data[key] = value
 

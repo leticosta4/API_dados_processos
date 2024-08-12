@@ -27,7 +27,6 @@ def prepare_search_info(num_processo):
     return info, url_center
    
 def search_setup(num1, num2, url_center):
-    """fazer primeiro com o primeiro grau e depois com o segundo"""
     proceeding_data = {}
     search_url_primeiro_grau = f"https://{url_center}.jus.br/cpopg/open.do"
     search_url_segundo_grau = f"https://{url_center}.jus.br/cposg5/open.do"
@@ -41,8 +40,6 @@ def search_setup(num1, num2, url_center):
         
         try:
             segundo_grau = proceeding_search(num1, num2, search_url_segundo_grau, True)
-            if isinstance(segundo_grau, dict) and segundo_grau.get('erro'):
-                return {'erro': 'Nenhum processo de segundo grau encontrado'}, 404
             proceeding_data['dados_segundo_grau'] = segundo_grau
 
         except Exception as e:
