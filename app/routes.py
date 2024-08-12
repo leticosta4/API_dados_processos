@@ -22,7 +22,9 @@ def proceeding_data():
     collected_data = search_setup(nums[0], nums[1], url_center) #dicionario que vai ser mandado p o front como json
 
     if isinstance(collected_data, dict):
+        if not collected_data: 
+            return jsonify({'error': 'Dicionário final vazio'}), 404
         return jsonify(collected_data), 200
     else:
-        return f"Erro na obtençao no dicionario com os dados", 400
+        return jsonify({'error': 'Erro na obtenção dos dados'}), 400
     

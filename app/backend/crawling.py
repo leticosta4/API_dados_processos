@@ -2,7 +2,6 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -65,7 +64,7 @@ def simple_data_collection(driver, second_degree_search):
         judge = driver.find_element(By.CSS_SELECTOR, unique_elements['judge']).text
     except NoSuchElementException:
         print("elemento de juiz não encontrado")
-        judge = "Não encontrada na página"
+        judge = "Não encontrado(a) na página"
         pass
     
     try: 
@@ -81,7 +80,7 @@ def simple_data_collection(driver, second_degree_search):
         legal_action_value = driver.find_element(By.CSS_SELECTOR, "#valorAcaoProcesso").text
     except NoSuchElementException:
         print("elemento de valor da ação não encontrado")
-        legal_action_value = "Não encontrada na página"
+        legal_action_value = "Não encontrado na página"
         pass
 
     return [class_, area, matter, distribuition_date, judge, legal_action_value]
@@ -162,8 +161,9 @@ def proceeding_search(n1, n2, url, second_degree_search):
     #coleta complexa: partes de lista  e dicts
     basic_info.append(proceeding_parts_collection(driver))
     basic_info.append(proceeding_updates_collection(driver))
+    print("BASIC INFO FINAL: ", basic_info)
     
-    time.sleep(10)
+    time.sleep(5)
     
     #armazenando os dados coletados
     keys = ['classe', 'area', 'assunto', 'data_de_distribuicao', 'juiz', 'valor_da_acao', 'partes_do_processo', 'movimentacoes']

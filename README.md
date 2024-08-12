@@ -40,7 +40,7 @@ Dentro da pasta do projeto, rodar no terminal:
 ### Execução do projeto
 Na IDE de sua escolha, rode o arquivo `run.py` para inicilização da API.
 
-- <b>Recomendação:</b> uso da extensão `Thunder Client` ou  da `RapidAPI Client` no VS Code para testes manuais com input e output (ambos na forma de JSON).
+- <b>Recomendação:</b> uso da extensão  `Thunder Client`  no VS Code para testes manuais com input e output (ambos na forma de JSON).
 
 ### Rodando testes com pytest
 Com o pytest já instalado via [dependências](#execução-do-projeto), rode o comando:
