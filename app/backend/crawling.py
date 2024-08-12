@@ -61,17 +61,28 @@ def simple_data_collection(driver, second_degree_search):
     
     class_ = driver.find_element(By.CSS_SELECTOR, unique_elements['class']).text
     matter = driver.find_element(By.CSS_SELECTOR, unique_elements['matter']).text
-    judge = driver.find_element(By.CSS_SELECTOR, unique_elements['judge']).text
+    try: 
+        judge = driver.find_element(By.CSS_SELECTOR, unique_elements['judge']).text
+    except NoSuchElementException:
+        print("elemento de juiz não encontrado")
+        judge = "Não encontrada na página"
+        pass
     
     try: 
         distribuition_date = driver.find_element(By.CSS_SELECTOR, "#dataHoraDistribuicaoProcesso").text
     except NoSuchElementException:
-        print("Data de Distribuição não disponível na página de busca do segundo grau do processo. Será utilizada a data do primeiro grau")
+        print("elemento de data de distribuicao não encontrado")
         distribuition_date = "Não encontrada na página"
         pass
 
     area = driver.find_element(By.CSS_SELECTOR, "#areaProcesso > span:nth-child(1)").text
-    legal_action_value = driver.find_element(By.CSS_SELECTOR, "#valorAcaoProcesso").text
+
+    try:
+        legal_action_value = driver.find_element(By.CSS_SELECTOR, "#valorAcaoProcesso").text
+    except NoSuchElementException:
+        print("elemento de valor da ação não encontrado")
+        legal_action_value = "Não encontrada na página"
+        pass
 
     return [class_, area, matter, distribuition_date, judge, legal_action_value]
 
@@ -80,14 +91,19 @@ def proceeding_parts_collection(driver):
     
     try: #pode ter mais partes, entao talvez clicar no mais
         #usando js p clicar diretamente no elemento que ta coberto por outro
-        mais = driver.find_element(By.CSS_SELECTOR, "#linkpartes")
-        driver.execute_script("arguments[0].scrollIntoView(true);", mais)
-        driver.execute_script("arguments[0].click();", mais)
+        mais_partes = driver.find_element(By.CSS_SELECTOR, "#linkpartes")
+        driver.execute_script("arguments[0].scrollIntoView(true);", mais_partes)
+        driver.execute_script("arguments[0].click();", mais_partes)
 
         tbody_proceeding_parts = driver.find_element(By.CSS_SELECTOR, '#tableTodasPartes > tbody:nth-child(1)')
+
     except NoSuchElementException:
         print("Não existe esse elemento para exibir mais opçoes")
         tbody_proceeding_parts = driver.find_element(By.CSS_SELECTOR, '#tablePartesPrincipais > tbody:nth-child(1)')
+
+    except Exception as e:
+        print(f"ERRO: {e}")
+        print(f"EXCEÇÃO: {type(e).__name__}")
 
     proceeding_parts_rows = tbody_proceeding_parts.find_elements(By.TAG_NAME, 'tr')
 
@@ -103,7 +119,15 @@ def proceeding_parts_collection(driver):
 
 def proceeding_updates_collection(driver): #lista de dicionarios
     proceeding_updates = []
-    driver.find_element(By.CSS_SELECTOR, "#linkmovimentacoes").click() #clicando no mais para acessar a lista de todas as movimentacaoes
+    try:
+        #clicando no mais para acessar a lista de todas as movimentacaoes - -mesmo problema sendo resolvido clicando diretamente no js
+        mais_movimentacoes = driver.find_element(By.CSS_SELECTOR, "#linkmovimentacoes")
+        driver.execute_script("arguments[0].scrollIntoView(true);", mais_movimentacoes)
+        driver.execute_script("arguments[0].click();", mais_movimentacoes)
+    except Exception as e:
+        print(f"ERRO: {e}")
+        print(f"EXCEÇÃO: {type(e).__name__}")
+
     tbody_proceeding_updates = driver.find_element(By.CSS_SELECTOR, '#tabelaTodasMovimentacoes')
     proceeding_updates_rows = tbody_proceeding_updates.find_elements(By.TAG_NAME, 'tr')
 
@@ -131,16 +155,16 @@ def proceeding_search(n1, n2, url, second_degree_search):
     driver.get(url) 
 
     initial_search(driver, n1, n2) #etapa de busca na pagina inicial
-        
+    
     #etapa de coleta a partir da segunda pagina
     basic_info = simple_data_collection(driver, second_degree_search) #coleta simples
     
     #coleta complexa: partes de lista  e dicts
     basic_info.append(proceeding_parts_collection(driver))
     basic_info.append(proceeding_updates_collection(driver))
-
+    
     time.sleep(10)
-
+    
     #armazenando os dados coletados
     keys = ['classe', 'area', 'assunto', 'data_de_distribuicao', 'juiz', 'valor_da_acao', 'partes_do_processo', 'movimentacoes']
     collected_data = dict.fromkeys(keys)

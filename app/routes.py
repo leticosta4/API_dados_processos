@@ -1,14 +1,14 @@
 from app import app
-from flask import render_template, request, jsonify
+from flask import request, jsonify#,render_template
 from app.backend.data_handling import proceeding_num_validation, prepare_search_info, search_setup
 
-@app.route("/index") 
-@app.route("/") 
-def index(): 
-     return render_template('index.html') 
+# @app.route("/index") 
+# @app.route("/") 
+# def index(): 
+#      return render_template('index.html') 
 
 @app.route("/dados_processo", methods=['POST'])
-def enviar_dados_processo():
+def proceeding_data():
     data = request.get_json() #recebendo o json como input do front
     proceeding_number = data.get('proceeding_number') 
 
@@ -21,4 +21,8 @@ def enviar_dados_processo():
     nums, url_center = prepare_search_info(proceeding_number)
     collected_data = search_setup(nums[0], nums[1], url_center) #dicionario que vai ser mandado p o front como json
 
-    return jsonify(collected_data), 200
+    if isinstance(collected_data, dict):
+        return jsonify(collected_data), 200
+    else:
+        return f"Erro na obtençao no dicionario com os dados", 400
+    

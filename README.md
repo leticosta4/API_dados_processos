@@ -20,18 +20,35 @@ API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Ju
 
 ### Criação de um ambiente virtual
  - Dentro da pasta do projeto, rodar no terminal:
-    - python3 -m venv "nome do ambiente virtual"
+   
+         python3 -m venv "nome do ambiente virtual"
 
  - Para ativar o ambiente virtual:
-   - Linux:      `source "nome do ambiente virtual"/bin/activate`
-   - Windows:    `"nome do ambiente virtual"\Scripts\activate.bat`
+   - Linux:
+   
+         source "nome do ambiente virtual"/bin/activate
+   - Windows:
+         
+         "nome do ambiente virtual"\Scripts\activate.bat
 
 
-### Instalação das dependências
+### Instalação das dependências 
 Dentro da pasta do projeto, rodar no terminal:
-     `pip install -r requirements.txt`
+         
+      pip install -r requirements.txt
 
 ### Execução do projeto
 Na IDE de sua escolha, rode o arquivo `run.py` para inicilização da API.
 
 - <b>Recomendação:</b> uso da extensão `Thunder Client` ou  da `RapidAPI Client` no VS Code para testes manuais com input e output (ambos na forma de JSON).
+
+### Rodando testes com pytest
+Com o pytest já instalado via [dependências](#execução-do-projeto), rode o comando:
+
+- Todos os testes:
+
+      pytest ./app/tests/
+
+- Teste específico:
+   
+      pytest ./app/tests/ -k "nome da função do teste"
