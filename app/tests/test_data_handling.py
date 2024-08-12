@@ -35,8 +35,8 @@ def test_prepare_search_info_returns_tribunal():
 
 def test_search_setup_returns_final_dict():
     """
-    checar se o dicionario tem pelo menos essa primeira chave e se tiver checar a existencia da segunda
-     'dados_primeiro_grau'
-    'dados_segundo_grau'
+    checar se o dicionario maior tem pelo menos essa primeira chave 'dados_primeiro_grau'
+    e se nao tiver ver se possui a msg de erro
+    => provavelmente quebrar em 2 funcoes p testes
     """ 
     pass
