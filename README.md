@@ -1,5 +1,5 @@
 # API_dados_processos
-API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Justiça de Alagoas ou do Ceará, de múltiplos dados referentes a processos, a primeiro e segundo grau, dependendo da existência dos mesmos. A busca é feita a partir do número do processo desejado, enviado na entrada em um JSON.
+API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Justiça de Alagoas ou do Ceará, de múltiplos dados referentes a processos, a primeiro e segundo grau, dependendo da existência dos mesmos. A busca é feita a partir do número do processo desejado, enviado na entrada em um JSON. 
 
 ### Dados coletados
 - Classe
@@ -13,8 +13,11 @@ API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Ju
 
 ### Principais ferramentas utilizadas
 - Framework Web: [Flask](https://flask.palletsprojects.com/en/3.0.x/)
-- [Selenium-webdriver]( https://www.selenium.dev/documentation/webdriver/)
-- [Webdriver-manager](https://pypi.org/project/webdriver-manager/)
+- Para automação/web scraping:
+  - [Selenium-webdriver]( https://www.selenium.dev/documentation/webdriver/)
+  - [Webdriver-manager](https://pypi.org/project/webdriver-manager/)
+- Para realização de testes: [pytest](https://docs.pytest.org/en/stable/)
+- Navegador usado pelo webdriver_manager: [Chrome](https://www.google.com/chrome/browser-tools/)
 
 
 

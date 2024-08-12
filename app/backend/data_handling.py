@@ -34,21 +34,26 @@ def search_setup(num1, num2, url_center):
 
     try: 
         primeiro_grau = proceeding_search(num1, num2, search_url_primeiro_grau, False)
-        if list(primeiro_grau.keys())[0] != 'error': proceeding_data['dados_primeiro_grau'] =  primeiro_grau
-        else: return primeiro_grau
+        if list(primeiro_grau.keys())[0] != 'erro':
+            proceeding_data['dados_primeiro_grau'] =  primeiro_grau
+        else:
+            return {'erro': 'Nenhum processo encontrado para o número fornecido'}, 404
         
         try:
-            segundo_grau = proceeding_search(num1, num2, search_url_segundo_grau, True) #rever isso daqui p quando um processo nao tiver o seu segundo grau
-            print("\n\nDICIONARIO SEGUNDO GRAU:", segundo_grau)
+            segundo_grau = proceeding_search(num1, num2, search_url_segundo_grau, True)
+            if isinstance(segundo_grau, dict) and segundo_grau.get('erro'):
+                return {'erro': 'Nenhum processo de segundo grau encontrado'}, 404
             proceeding_data['dados_segundo_grau'] = segundo_grau
 
         except Exception as e:
             print(f"Erro no retorno do dicionário com as informações de segundo grau do processo => {e}")
             print(f"EXCEÇÃO: {type(e).__name__}")
-           
+            return {'erro': 'Erro na busca de segundo grau'}, 500
+        
     except Exception as e:
-            print(f"Erro no retorno do dicionário com as informações de primeiro grau do processo => {e}")
-            print(f"EXCEÇÃO: {type(e).__name__}")
+        print(f"Erro no retorno do dicionário com as informações de primeiro grau do processo => {e}")
+        print(f"EXCEÇÃO: {type(e).__name__}")
+        return {'erro': 'Erro na busca de primeiro grau'}, 500
     
-    return proceeding_data
+    return proceeding_data, 200
     

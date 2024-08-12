@@ -46,24 +46,24 @@ def dictionaries(sec, driver):
 
 def proceeding_verification(driver):
     try:
-        if driver.find_element(By.CSS_SELECTOR, "#mensagemRetorno").text == "Não existem informações disponíveis para os parâmetros informados.": return False  # Processo não encontrado   
+        if driver.find_element(By.CSS_SELECTOR, "#mensagemRetorno").text == "Não existem informações disponíveis para os parâmetros informados.": return False  #processo não encontrado   
     except NoSuchElementException: pass
 
-    return True  # Processo encontrado
+    return True 
 
 def initial_search(driver, n1, n2):
     driver.find_element(By.CSS_SELECTOR, "#numeroDigitoAnoUnificado").send_keys(n1)
     driver.find_element(By.CSS_SELECTOR, "#foroNumeroUnificado").send_keys(n2)
     try:
         driver.find_element(By.CSS_SELECTOR, "#botaoConsultarProcessos").click()
-        if not proceeding_verification(driver): return False  # Nenhum processo encontrado em primeiro grau
+        if not proceeding_verification(driver): return False  #nenhum processo encontrado em primeiro grau
 
     except NoSuchElementException:
         print("Usando o seletor CSS para o botão de pesquisa da página de segundo grau")
         driver.find_element(By.CSS_SELECTOR, "#pbConsultar").click()
-        if not proceeding_verification(driver): return False  # Nenhum processo encontrado em segundo grau
+        if not proceeding_verification(driver): return False  #nenhum processo encontrado em segundo grau
 
-    return True  # Processo encontrado
+    return True  
 
 def simple_data_collection(driver, second_degree_search):
     unique_elements = dictionaries(second_degree_search, driver) #etapa de confirmação se for processo de segundo grau - com condicional
@@ -168,11 +168,11 @@ def proceeding_search(n1, n2, url, second_degree_search):
     
     if not process_found and second_degree_search == False:
         driver.quit()
-        return {'error': 'Nenhum processo encontrado para o número fornecido'}
+        return {'erro': 'Nenhum processo encontrado para o número fornecido'}
 
     basic_info = simple_data_collection(driver, second_degree_search)
 
-    # Coleta de partes do processo e movimentações, independentemente do grau
+    #coleta de partes do processo e movimentações, independentemente do grau
     basic_info.append(proceeding_parts_collection(driver))
     basic_info.append(proceeding_updates_collection(driver))
 
