@@ -34,7 +34,9 @@ def search_setup(num1, num2, url_center):
 
     try: 
         primeiro_grau = proceeding_search(num1, num2, search_url_primeiro_grau, False)
-        proceeding_data['dados_primeiro_grau'] =  primeiro_grau
+        if list(primeiro_grau.keys())[0] != 'error': proceeding_data['dados_primeiro_grau'] =  primeiro_grau
+        else: return primeiro_grau
+        
         try:
             segundo_grau = proceeding_search(num1, num2, search_url_segundo_grau, True) #rever isso daqui p quando um processo nao tiver o seu segundo grau
             print("\n\nDICIONARIO SEGUNDO GRAU:", segundo_grau)

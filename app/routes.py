@@ -23,7 +23,7 @@ def proceeding_data():
 
     if isinstance(collected_data, dict):
         if not collected_data: 
-            return jsonify({'error': 'Dicionário final vazio'}), 404
+            return jsonify({'error': 'Dicionário final vazio'}), 400
         return jsonify(collected_data), 200
     else:
         return jsonify({'error': 'Erro na obtenção dos dados'}), 400
