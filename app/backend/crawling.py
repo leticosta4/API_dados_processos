@@ -174,7 +174,7 @@ def proceeding_search(n1, n2, url, second_degree_search):
     if not process_found:
         driver.quit()
         if second_degree_search == False: return {'erro': 'Nenhum processo encontrado para o número fornecido'}
-        else: return 'Não existente. O processo não possui segundo grau'
+        else: return 'Não existente. O processo não possui segundo grau.'
 
     basic_info = simple_data_collection(driver, second_degree_search)
 

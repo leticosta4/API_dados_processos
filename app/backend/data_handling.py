@@ -22,7 +22,9 @@ def break_number_down(num):
 
 def prepare_search_info(num_processo):
     info = break_number_down(num_processo)
-    url_center = 'www2.tjal' if info[-1] == '8.02' else 'esaj.tjce' #se for 8.06 é do ceara
+    if info[-1] == '8.02': url_center = 'www2.tjal' 
+    elif info[-1] == '8.06': url_center = 'esaj.tjce'
+    else: url_center = None
          
     return info, url_center
    
