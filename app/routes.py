@@ -1,11 +1,6 @@
 from app import app
-from flask import request, jsonify#,render_template
+from flask import request, jsonify
 from app.utils.data_handling import proceeding_num_validation, prepare_search_info, search_setup
-
-# @app.route("/index") 
-# @app.route("/") 
-# def index(): 
-#      return render_template('index.html') 
 
 @app.route('/dados_processo', methods=['POST'])
 def proceeding_data():
