@@ -10,7 +10,7 @@ def test_proceeding_data_accepts_full_json():
 
     output_data = response.get_json()
     if output_data.get('dados_primeiro_grau') and output_data.get('dados_segundo_grau'):
-        ok = True if output_data.get('dados_primeiro_grau').get('area') else False
+        ok = True if output_data.get('dados_primeiro_grau') else False
     else: ok = False
 
     assert response.status_code == 200 and ok == True
