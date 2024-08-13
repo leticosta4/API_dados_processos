@@ -1,4 +1,4 @@
-from app.backend.data_handling import proceeding_num_validation, break_number_down, prepare_search_info, search_setup
+from app.utils.data_handling import proceeding_num_validation, break_number_down, prepare_search_info, search_setup
 import pytest
 
 @pytest.mark.parametrize("test_input, expected", [('0710802-55.2018.8.02.0001', True),

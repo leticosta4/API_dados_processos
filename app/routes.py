@@ -1,13 +1,13 @@
 from app import app
 from flask import request, jsonify#,render_template
-from app.backend.data_handling import proceeding_num_validation, prepare_search_info, search_setup
+from app.utils.data_handling import proceeding_num_validation, prepare_search_info, search_setup
 
 # @app.route("/index") 
 # @app.route("/") 
 # def index(): 
 #      return render_template('index.html') 
 
-@app.route("/dados_processo", methods=['POST'])
+@app.route('/dados_processo', methods=['POST'])
 def proceeding_data():
     data = request.get_json()  #recebendo o json como input do front
     proceeding_number = data.get('proceeding_number') 
@@ -27,4 +27,3 @@ def proceeding_data():
         return jsonify(collected_data), status_code
     else:
         return jsonify({'erro': 'Erro na obtenção dos dados'}), 500
-    

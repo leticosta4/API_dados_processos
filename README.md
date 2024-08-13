@@ -55,3 +55,7 @@ Com o pytest já instalado via [dependências](#execução-do-projeto), rode o c
 - Teste específico:
    
       pytest ./app/tests/ -k "nome da função do teste"
+
+- Detalhamento nos testes de um certo arquivo :
+
+      pytest -v app/tests/"nome do arquivo de test"

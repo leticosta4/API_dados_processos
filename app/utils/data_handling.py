@@ -1,4 +1,4 @@
-from app.backend.crawling import proceeding_search
+from app.utils.crawling import proceeding_search
 
 def proceeding_num_validation(num_input):
     if len(num_input) != 25: return False
