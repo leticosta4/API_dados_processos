@@ -26,7 +26,7 @@ def dictionaries(sec, driver):
             'judge': '.div-conteudo > table:nth-child(13) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4)', 
         }
 
-        try: #as vezes essaa verificação é pedida pelo sit, outras vezes não
+        try: #as vezes essaa verificação é pedida pelo site, outras vezes não
             driver.find_element(By.CSS_SELECTOR, ".modal__process-choice > input:nth-child(1)").click()
             driver.find_element(By.CSS_SELECTOR, "#botaoEnviarIncidente").click()
 

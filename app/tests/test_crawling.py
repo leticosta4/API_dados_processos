@@ -19,7 +19,6 @@ def test_dictionaries(test_sec, test_driver, expected_dict):
 def test_initial_search(temp_driver, test_n1, test_n2, expected_bool):
     temp_driver.get('https://www2.tjal.jus.br/cpopg/open.do')
     assert initial_search(temp_driver, test_n1, test_n2) == expected_bool
-    #talvez fechar o driver aqui 
 
 @pytest.mark.parametrize("test_url, temp_driver, test_grau2, expeted_list", [
     (url1, temp_driver, False, ["Procedimento Comum Cível", "Cível", "Dano Material", "02/05/2018", "José Cícero Alves da Silva", "R$ 281.178,42"]),
