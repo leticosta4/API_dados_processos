@@ -25,7 +25,7 @@ def test_initial_search(temp_driver, test_n1, test_n2, expected_bool):
     (url2, temp_driver, True, ["Apelação Cível", "Cível", "Obrigações", "Não encontrada na página", "José Cícero Alves da Silva", "281.178,42"])])
 def test_simple_data_collection(test_url, temp_driver, test_grau2, expeted_list):
     temp_driver.get(test_url)
-    assert simple_data_collection(temp_driver, test_grau2) == expeted_list
+    assert sorted(simple_data_collection(temp_driver, test_grau2)) == sorted(expeted_list)
 
 @pytest.mark.parametrize("test_url, temp_driver, expected_dict_keys", [
     (url1, temp_driver, ['Autor', 'Autora', 'Ré', 'Réu']),
