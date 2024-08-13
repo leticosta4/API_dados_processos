@@ -1,5 +1,5 @@
 import pytest
-from app.utils.crawling import driver_setup, dictionaries, initial_search, simple_data_collection, proceeding_parts_collection
+from app.utils.crawling import driver_setup, dictionaries, initial_search, simple_data_collection, proceeding_parts_collection, proceeding_updates_collection, proceeding_search
 
 temp_driver = driver_setup()
 url1 = 'https://www2.tjal.jus.br/cpopg/show.do?processo.codigo=01000O7550000&processo.foro=1&processo.numero=0710802-55.2018.8.02.0001'
@@ -36,4 +36,24 @@ def test_proceeding_parts_collection(test_url, temp_driver, expected_dict_keys):
     temp_driver.get(test_url)
     assert sorted(proceeding_parts_collection(temp_driver).keys()) == sorted(expected_dict_keys)
 
-#faltam ainda testes p 2 funcoes do crawling, mas n sei se faço ainda ou n
+@pytest.mark.parametrize("test_url, temp_driver, expected_list_item", [
+    (url1, temp_driver, {"data": "24/08/2023", "movimento": ["Arquivado Definitivamente"]}),
+    (url2, temp_driver, {"data": "26/04/2023", "movimento": ["Baixa Definitiva"]})
+])
+def test_proceeding_updates_collection(test_url, temp_driver, expected_list_item):
+    found_item = False
+    temp_driver.get(test_url)
+    for item in proceeding_updates_collection(temp_driver):
+        if item == expected_list_item: found_item = True
+    
+    assert found_item == True
+
+@pytest.mark.parametrize("test_url, second_degree_search, expected_return_bool", [
+    ('https://www2.tjal.jus.br/cpopg/open.do', False, True), 
+    ('https://www2.tjal.jus.br/cposg5/open.do', True, True)
+])
+def test_proceeding_search(test_url, second_degree_search, expected_return_bool): #mais simples já que serve de complemento para um outro teste já feito
+    is_equal: bool
+    right_keys = ['classe', 'area', 'assunto', 'data_de_distribuicao', 'juiz', 'valor_da_acao', 'partes_do_processo', 'movimentacoes']
+    is_equal = True if sorted(proceeding_search('0710802552018', '0001', test_url, second_degree_search).keys()) == sorted(right_keys) else False
+    assert is_equal == expected_return_bool
