@@ -37,12 +37,14 @@ def search_setup(num1, num2, url_center):
         primeiro_grau = proceeding_search(num1, num2, search_url_primeiro_grau, False)
         if list(primeiro_grau.keys())[0] != 'erro':
             proceeding_data['dados_primeiro_grau'] =  primeiro_grau
+            print("Dados primeiro grau recebidos com sucesso")
         else:
             return {'erro': 'Nenhum processo encontrado para o número fornecido'}, 404
         
         try:
             segundo_grau = proceeding_search(num1, num2, search_url_segundo_grau, True)
             proceeding_data['dados_segundo_grau'] = segundo_grau
+            print("Dados primeiro grau recebidos com sucesso")
 
         except Exception as e:
             print(f"Erro no retorno do dicionário com as informações de segundo grau do processo => {e}")

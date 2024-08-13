@@ -84,7 +84,7 @@ def simple_data_collection(driver, second_degree_search):
         pass
     
     try: 
-        distribuition_date = driver.find_element(By.CSS_SELECTOR, "#dataHoraDistribuicaoProcesso").text
+        distribuition_date = (driver.find_element(By.CSS_SELECTOR, "#dataHoraDistribuicaoProcesso").text)[:10] 
     except NoSuchElementException:
         print("elemento de data de distribuicao não encontrado")
         distribuition_date = "Não encontrada na página"
