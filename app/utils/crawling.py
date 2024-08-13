@@ -7,8 +7,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
 
-def driver_setup():
-    """ preparando o driver do chrome """
+def driver_setup(): #preparando o driver do chrome
     options = ChromeOptions()
     options.add_argument("--headless") 
 
@@ -131,10 +130,9 @@ def proceeding_parts_collection(driver):
 
     return proceeding_parts
 
-def proceeding_updates_collection(driver): #xdicionarios de listas
+def proceeding_updates_collection(driver):
     proceeding_updates = []
-    try:
-        #clicando no mais para acessar a lista de todas as movimentacaoes - -mesmo problema sendo resolvido clicando diretamente no js
+    try: #clicando no mais para acessar a lista de todas as movimentacaoes 
         mais_movimentacoes = driver.find_element(By.CSS_SELECTOR, "#linkmovimentacoes")
         driver.execute_script("arguments[0].scrollIntoView(true);", mais_movimentacoes)
         driver.execute_script("arguments[0].click();", mais_movimentacoes)

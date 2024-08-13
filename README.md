@@ -18,6 +18,7 @@ API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Ju
   - [Webdriver-manager](https://pypi.org/project/webdriver-manager/)
 - Para realização de testes: [pytest](https://docs.pytest.org/en/stable/)
 - Navegador usado pelo webdriver_manager: [Chrome](https://www.google.com/chrome/browser-tools/)
+- Entre outras
 
 
 
@@ -58,4 +59,4 @@ Com o pytest já instalado via [dependências](#execução-do-projeto), rode o c
 
 - Detalhamento nos testes de um certo arquivo :
 
-      pytest -v app/tests/"nome do arquivo de test"
+      pytest -v app/tests/"nome do arquivo de teste"
