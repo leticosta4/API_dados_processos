@@ -40,29 +40,28 @@ API desenvolvida, juntamente com web crawling, para a busca, nos tribunais de Ju
 
 ## Tutorial
 
-### Criação de um ambiente virtual
- - Dentro da pasta do projeto, rodar no terminal:
-   
-         python3 -m venv "nome do ambiente virtual"
-
- - Para ativar o ambiente virtual:
-   - Linux:
-   
-         source "nome do ambiente virtual"/bin/activate
-   - Windows:
+Build inicial, preparando o ambiente com as dependências necessárias:
          
-         "nome do ambiente virtual"\Scripts\activate.bat
+      docker compose build
+
+Execução da API:
+
+      docker compose up 
+
+> (ou adicione a flag `-d` no final para rodar em background sem logs)
 
 
-### Instalação das dependências 
-Dentro da pasta do projeto, rodar no terminal:
-         
-      pip install -r requirements.txt
+Desligamento dos container
 
-### Execução do projeto
-Na IDE de sua escolha, rode o arquivo `run.py` para inicilização da API.
+      docker compose down
 
-- **Recomendação:** uso da extensão  `Thunder Client`  no VS Code para testes manuais com input e output (ambos na forma de JSON).
+> (ou adicione `--volumes` para fazer a limpeza)
+
+
+### Simulando requisição do projeto
+Na ambiente de sua escolha, depois de executar os comandos docker necessários para inicialização do projeto:
+
+- **Recomendação:** uso da extensão  `Thunder Client`  no VS Code, ou do Postman, para testes manuais com input e output (ambos na forma de JSON).
 
 - **Formato do json:**
 
@@ -72,17 +71,24 @@ Na IDE de sua escolha, rode o arquivo `run.py` para inicilização da API.
   }
   ```
 
-### Rodando testes com pytest
+### Testes (pytest)
+
+- Todos os testes
+
+      docker compose run api pytest
+
 Com o pytest já instalado via [dependências](#execução-do-projeto), rode o comando:
-
-- Todos os testes:
-
-      pytest ./app/tests/
 
 - Teste específico:
    
-      pytest ./app/tests/ -k "nome da função do teste"
+      docker compose run api pytest tests/ -k <nome-da-funcao-do-teste>
+
+ou 
+
+      docker compose run api pytest <caminho-do-test> <nome-da-funcao-do-teste>
+
+> e pode colocar a flag `-vv` para melhor detalhamento de logs
 
 - Detalhamento nos testes de um certo arquivo :
 
-      pytest -v app/tests/"nome do arquivo de teste"
+      docker compose run api pytest -v app/tests/"nome do arquivo de teste"
